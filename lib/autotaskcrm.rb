@@ -80,6 +80,16 @@ class AutoTaskCrm
     end
   end
 
+  def get_contracts(account_id)
+      resp = send_xml("<entity>contract</entity><query><field>AccountID<expression op='equals'>#{account_id}</expression></field></query>")
+      resp != false ? resp.body[:query_response][:query_result][:entity_results][:entity] : nil
+  end
+  
+  def get_contract(contract_id)
+      resp = send_xml("<entity>contract</entity><query><field>id<expression op='equals'>#{contract_id}</expression></field></query>")
+      resp != false ? resp.body[:query_response][:query_result][:entity_results][:entity] : nil
+  end
+
   def get_contacts(account_id)
       resp = send_xml("<entity>contact</entity><query><field>AccountID<expression op='equals'>#{account_id}</expression></field></query>")
       resp != false ? resp.body[:query_response][:query_result][:entity_results][:entity] : nil
