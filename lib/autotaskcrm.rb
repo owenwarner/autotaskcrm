@@ -41,6 +41,67 @@ class AutoTaskCrm
       resp = send_xml("<entity>ticket</entity><query><field>ticketnumber<expression op='equals'>#{ticket_name.strip}</expression></field></query>") 
       resp != false ? resp.body[:query_response][:query_result][:entity_results][:entity][:id] : nil
   end
+  
+  def get_tickets(account_id, year, month)
+    query = <<-EOS
+    <entity>Ticket</entity>
+    <query>
+      <condition>
+        <field>AccountID<expression op='equals'>#{account_id}</expression></field>
+      </condition>
+      <condition>
+        <condition> 
+          <field>Status<expression op='NotEqual'>5</expression></field>
+        </condition>
+        <condition>
+          <field>CreateDate<expression op='GreaterThanOrEquals'>#{Date.parse("#{year}-#{month}-01")}</expression></field>
+        </condition>
+        <condition>
+          <field>CreateDate<expression op='LessThanOrEquals'>#{Date.parse("#{year}-#{month}-#{(Date.new(year, 12, 31) << (12-month)).day}")}</expression></field>
+        </condition>
+        <condition operator='OR'>
+          <condition> 
+            <field>Status<expression op='Equals'>5</expression></field>
+          </condition>
+          <condition>
+            <field>CreateDate<expression op='GreaterThanOrEquals'>#{Date.parse("#{year}-#{month}-01")}</expression></field>
+          </condition>
+          <condition>
+            <field>CreateDate<expression op='LessThanOrEquals'>#{Date.parse("#{year}-#{month}-#{(Date.new(year, 12, 31) << (12-month)).day}")}</expression></field>
+          </condition>
+          <condition>
+            <field>ResolvedDateTime<expression op='GreaterThanOrEquals'>#{Date.parse("#{year}-#{month}-#{(Date.new(year, 12, 31) << (12-month)).day}")}</expression></field>
+          </condition>
+        </condition>
+        <condition operator='OR'>
+          <condition>
+            <field>ResolvedDateTime<expression op='GreaterThanOrEquals'>#{Date.parse("#{year}-#{month}-01")}</expression></field> 
+          </condition>
+          <condition>
+            <field>ResolvedDateTime<expression op='LessThanOrEquals'>#{Date.parse("#{year}-#{month}-#{(Date.new(year, 12, 31) << (12-month)).day}")}</expression></field>
+          </condition>
+        </condition>
+      </condition>
+      <condition>
+        <condition>
+          <field>QueueID<expression op='equals'>29730010</expression></field>
+        </condition>
+        <condition operator='OR'>
+          <field>QueueID<expression op='equals'>29685031</expression></field>
+        </condition>
+        <condition operator='OR'>
+          <field>QueueID<expression op='equals'>29682833</expression></field>
+        </condition>
+        <condition operator='OR'>
+          <field>QueueID<expression op='equals'>29789587</expression></field>
+        </condition>
+      </condition>
+    </query>
+    EOS
+
+    response = send_xml(query)
+    response != false ? response.body[:query_response][:query_result][:entity_results][:entity] : nil
+  end
 
   def get_task_id(task_name)
       return nil unless task_name.match(Regexp.new(/^T[0-9]{8}\.[0-9]{4}$/))
