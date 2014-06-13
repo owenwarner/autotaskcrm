@@ -189,5 +189,42 @@ class AutoTaskCrm
       return ""
     end
   end
+  
+  # Integer to String Handling for Priorities and Sources on Tickets
+  def get_priority(id)
+    case id.to_i
+    when 4
+      return 'Critical'
+    when 3
+      return 'Low'
+    when 2
+      return 'Medium'
+    when 1
+      return 'High'
+    else
+      return 'Unknown'
+    end
+  end
+
+  def get_source(id)
+    case id.to_i
+    when -2
+      return 'Insourced'
+    when -1
+      return 'Client Portal'
+    when 1
+      return 'Other'
+    when 2
+      return 'Call'
+    when 3
+      return 'Voice Mail'
+    when 4
+      return 'Email'
+    when 6
+      return 'Verbal'
+    else
+      return 'Unknown'
+    end
+  end
 
 end
