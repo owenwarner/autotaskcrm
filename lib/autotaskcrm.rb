@@ -140,6 +140,13 @@ class AutoTaskCrm
       resp != false ? resp.body[:query_response][:query_result][:entity_results][:entity][:account_name].strip : nil
     end
   end
+  
+  def get_account_information(account_id)
+    RAILS.cache.fetch("account_information", :expires_in => 1.days) do
+      resp = send_xml("<entity>account</entity><query><field>id<expression op='equals'>#{account_id}</expression></field></query>")
+      resp != false ? resp.body[:query_response][:query_result][:entity_results][:entity].strip : nil
+    end
+  end
 
   def get_contracts(account_id)
       resp = send_xml("<entity>contract</entity><query><field>AccountID<expression op='equals'>#{account_id}</expression></field></query>")
