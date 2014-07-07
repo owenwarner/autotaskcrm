@@ -164,7 +164,7 @@ class AutoTaskCrm
   def get_contact(contact_id)
     Rails.cache.fetch("contact_name_#{contact_id}", :expires_in => 1.weeks) do
       resp = send_xml("<entity>contact</entity><query><field>id<expression op='equals'>#{contact_id}</expression></field></query>")
-      resp != false ? "#{resp.body[:query_response][:query_result][:entity_results][:entity][:first_name]} #{resp.body[:query_response][:query_result][:entity_results][:entity][:last_name]}" : nil
+      resp != false ? resp.body[:query_response][:query_result][:entity_results][:entity] : nil
     end
   end
 
