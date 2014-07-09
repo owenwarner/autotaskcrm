@@ -6,7 +6,7 @@ class AutoTaskCrm
     @client = nil
 
     Savon.configure do |config|
-      config.raise_errors = true
+      config.raise_errors = false
       config.soap_version = 2
       config.log = false
       config.log_level = :fatal
