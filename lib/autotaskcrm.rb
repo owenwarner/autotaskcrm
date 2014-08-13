@@ -41,7 +41,14 @@ class AutoTaskCrm
       resp = send_xml("<entity>ticket</entity><query><field>ticketnumber<expression op='equals'>#{ticket_name.strip}</expression></field></query>") 
       resp != false ? resp.body[:query_response][:query_result][:entity_results][:entity][:id] : nil
   end
-  
+
+  def get_ticket(ticket_name)
+    return nil unless ticket_name.match(Regexp.new(/^T[0-9]{8}\.[0-9]{4}$/))
+    
+    resp = send_xml("<entity>ticket</entity><query><field>ticketnumber<expression op='equals'>#{ticket_name.strip}</expression></field></query>")
+    resp != false ? resp.body[:query_response][:query_result][:entity_results][:entity] : nil
+  end
+
   def get_tickets(account_id, year, month)
     query = <<-EOS
     <entity>Ticket</entity>
