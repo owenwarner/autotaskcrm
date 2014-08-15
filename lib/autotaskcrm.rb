@@ -122,6 +122,17 @@ class AutoTaskCrm
           <field>Status<expression op='NotEqual'>5</expression></field>
         </condition>
       </condition>
+      <condition>
+        <condition>
+          <field>QueueID<expression op='NotEqual'>29746061</expression></field>
+        </condition>
+        <condition operator='AND'>
+          <field>QueueID<expression op='NotEqual'>29746065</expression></field>
+        </condition>
+        <condition operator='AND'>
+          <field>QueueID<expression op='NotEqual'>29747641</expression></field>
+        </condition>
+      </condition>
     </query>
     EOS
 
