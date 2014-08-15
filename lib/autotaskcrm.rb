@@ -109,6 +109,25 @@ class AutoTaskCrm
     response = send_xml(query)
     response != false ? response.body[:query_response][:query_result][:entity_results][:entity] : nil
   end
+  
+  def get_all_open_tickets(account_id)
+    query = <<-EOS
+    <entity>Ticket</entity>
+    <query>
+      <condition>
+        <field>AccountID<expression op='equals'>#{account_id}</expression></field>
+      </condition>
+      <condition>
+        <condition> 
+          <field>Status<expression op='NotEqual'>5</expression></field>
+        </condition>
+      </condition>
+    </query>
+    EOS
+
+    response = send_xml(query)
+    response != false ? response.body[:query_response][:query_result][:entity_results][:entity] : nil
+  end
 
   def get_task_id(task_name)
       return nil unless task_name.match(Regexp.new(/^T[0-9]{8}\.[0-9]{4}$/))
