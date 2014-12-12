@@ -51,7 +51,7 @@ class AutoTaskCrm
 
   def get_ticket_notes(ticket_id)
     resp = send_xml("<entity>ticketnote</entity><query><field>ticketid<expression op='equals'>#{ticket_id}</expression></field></query>")
-    resp != false ? resp.body[:query_response]   
+    resp != false ? resp.body[:query_response] : nil
   end
 
   def get_tickets(account_id, year, month)
