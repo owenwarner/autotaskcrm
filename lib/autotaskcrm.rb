@@ -44,7 +44,7 @@ class AutoTaskCrm
   def create_ticket(account_id, title, description, priority, due_date, contact_id, source)
     return nil if account_id.blank? or title.blank? or description.blank?
 
-    resp = send_xml("<Entities><Entity xsi:type='Ticket'><AccountID>#{account_id}</AccountID><Priority>#{priority}</Priority><Status>1</Status><Title>#{title}</Title><Description xsi:type='xsd:string'>#{description}</Description><UserDefinedFields /><DueDateTime>#{DateTime.parse(due_date).strftime("%Y-%m-%d %H:%M:%S")}</DueDateTime><ContactID>#{contact_id}</ContactID><QueueID>29730010</QueueID><WorkType>29730009</WorkType><Source>#{source}</Source></Entity></Entities>", query = false)
+    resp = send_xml("<Entities><Entity xsi:type='Ticket'><AccountID>#{account_id}</AccountID><Priority>#{priority}</Priority><Status>1</Status><Title>#{title}</Title><Description xsi:type='xsd:string'><![CDATA[#{description}]]></Description><UserDefinedFields /><DueDateTime>#{DateTime.parse(due_date).strftime("%Y-%m-%d %H:%M:%S")}</DueDateTime><ContactID>#{contact_id}</ContactID><QueueID>29730010</QueueID><WorkType>29730009</WorkType><Source>#{source}</Source></Entity></Entities>", query = false)
     resp != false ? resp.body : nil
   end
 
