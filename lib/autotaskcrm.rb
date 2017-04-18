@@ -5,12 +5,12 @@ class AutoTaskCrm
   def initialize(username = nil, password = nil)
     @client = nil
 
-    Savon.configure do |config|
-      config.raise_errors = false
-      config.soap_version = 2
-      config.log = false
-      config.log_level = :fatal
-    end
+    #Savon.configure do |config|
+    #  config.raise_errors = false
+    #  config.soap_version = 2
+    #  config.log = false
+    #  config.log_level = :fatal
+    #end
 
     HTTPI.log = false
 
