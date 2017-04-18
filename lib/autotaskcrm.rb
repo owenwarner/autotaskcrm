@@ -24,13 +24,13 @@ class AutoTaskCrm
       return false
     end
     
-    @client = Savon.client(wsdl: "https://webservices3.autotask.net/atservices/1.5/atws.wsdl", basic_auth: ["#{@username}", "#{@password}"], log_level: :debug)
+    @client = Savon.client(wsdl: "https://webservices3.autotask.net/atservices/1.5/atws.wsdl", basic_auth: ["#{@username}", "#{@password}"])
     
   end
 
   def send_xml(xml, query = true)
     if query == true
-      resp = @client.call(:query, xml: "<queryxml>#{xml}</queryxml>")
+      resp = @client.call(:query, message: {'sXML' => "<queryxml>#{xml}</queryxml>"})
       resp.body[:query_response][:query_result][:entity_results].is_a?(Hash) ? resp : false
     else
       resp = @client.call(:create, xml: "<?xml version='1.0' encoding='UTF-8'?><soap:Envelope xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:soap='http://www.w3.org/2003/05/soap-envelope'><soap:Body><create xmlns='http://autotask.net/ATWS/v1_5/'>#{xml}</create></soap:Body></soap:Envelope>")
