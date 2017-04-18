@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.homepage        = 'http://rubygems.org/gems/autotaskcrm'
   s.license         = 'MIT'
 
-  s.add_dependency('savon', '~> 1.1.0')
-  s.add_dependency('gyoku', '~> 0.4.6')
-  s.add_dependency('httpclient', '~> 2.2.5')
+  s.add_dependency('savon', '~> 2.11.0')
+  s.add_dependency('gyoku', '~> 1.0')
+  s.add_dependency('httpclient', '~> 2.7.1')
 end
