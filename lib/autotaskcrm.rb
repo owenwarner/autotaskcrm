@@ -14,8 +14,8 @@ class AutoTaskCrm
 
     HTTPI.log = false
 
-    @client = Savon::Client.new do
-      wsdl.document = "https://webservices3.autotask.net/atservices/1.5/atws.wsdl"
+    @client = Savon.client do
+      wsdl "https://webservices3.autotask.net/atservices/1.5/atws.wsdl"
     end
 
     if !username.blank? and !password.blank?
