@@ -30,7 +30,11 @@ class AutoTaskCrm
 
   def send_xml(xml, query = true)
     if query == true
-      resp = @client.call(:query, xml: "<?xml version='1.0' encoding='UTF-8'?><soap:Envelope xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:soap='http://www.w3.org/2003/05/soap-envelope'><soap:Body><queryxml xmlns='http://autotask.net/ATWS/v1_5/'>#{xml}</queryxml></soap:Body></soap:Envelope>")
+      resp = @client.call(:query, :message => {
+        'sXML' => {
+          :queryxml => {xml}
+        }
+      })
       resp.body[:query_response][:query_result][:entity_results].is_a?(Hash) ? resp : false
     else
       resp = @client.call(:create, xml: "<?xml version='1.0' encoding='UTF-8'?><soap:Envelope xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:soap='http://www.w3.org/2003/05/soap-envelope'><soap:Body><create xmlns='http://autotask.net/ATWS/v1_5/'>#{xml}</create></soap:Body></soap:Envelope>")
