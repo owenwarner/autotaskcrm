@@ -24,9 +24,7 @@ class AutoTaskCrm
       return false
     end
     
-    @client = Savon.client do
-      wsdl "https://webservices3.autotask.net/atservices/1.5/atws.wsdl"
-      basic_auth ["#{@username}", "#{@password}"]
+    @client = Savon.client(wsdl: "https://webservices3.autotask.net/atservices/1.5/atws.wsdl", basic_auth: ["#{@username}", "#{@password}"])
     end
     
   end
